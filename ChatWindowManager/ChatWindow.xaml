@@ -1,0 +1,6 @@
+﻿<Window x:Class="ChatWindowManager.ChatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ChatWindow" Height="430" Width="410">
+    <ContentControl x:Name="ChatWindowContent"/>
+</Window>
