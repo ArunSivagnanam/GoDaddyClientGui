@@ -25,7 +25,6 @@ namespace ChatWindowManager.UserControls
     public partial class UserLogIn : UserControl
     {
         public event EventHandler<src.UIEvent> userEvent;
-        public static src.Client loggedInClient;
 
         public UserLogIn()
         {

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ChatWindowManager.UserControls;
+using GoDaddyClient;
 
 namespace ChatWindowManager
 {
@@ -21,14 +22,15 @@ namespace ChatWindowManager
     /// </summary>
     public partial class MainWindow : Window
     {
+        GoDaddyClient.Client clientLogic;
+
         public MainWindow()
         {
             InitializeComponent();
-            //ChatRoom chatroom = new ChatRoom();
-            //MainWindowContent.Content = chatroom;
             UserLogIn loginUI = new UserLogIn();
             MainWindowContent.Content = loginUI;
             loginUI.userEvent += eventOccurred;
+            //clientLogic = new GoDaddyClient.Client();   
         }
 
         void eventOccurred(object sender, src.UIEvent e)
@@ -36,7 +38,7 @@ namespace ChatWindowManager
             switch(e.window)
             {
                 case "CreateNewUser":
-                    CreateNewUser createNewUserUI = new CreateNewUser();
+                    CreateNewUser createNewUserUI = new CreateNewUser(clientLogic);
                     createNewUserUI.createUserEvent += eventOccurred;
                     MainWindowContent.Content = createNewUserUI; 
                     break;
@@ -51,7 +53,7 @@ namespace ChatWindowManager
                     MainWindowContent.Content = chatRoom;
                     break;
                 case "Login":
-                    FriendsWindow friendsWindow = new FriendsWindow();
+                    FriendsWindow friendsWindow = new FriendsWindow(clientLogic);
                     this.Close();
                     break;
             }

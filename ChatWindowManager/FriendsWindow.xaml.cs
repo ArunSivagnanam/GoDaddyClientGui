@@ -16,12 +16,17 @@ namespace ChatWindowManager.UserControls
 {
     public partial class FriendsWindow : Window
     {
-        public FriendsWindow()
+        private GoDaddyClient.Client clientLogic;
+
+
+
+        public FriendsWindow(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();
             DisplayFriendsUS displayFriendsUS = new DisplayFriendsUS();
             friendsWindowContent.Content = displayFriendsUS;
             this.Show();
+            this.clientLogic = clientLogic;
         }
     }
 }

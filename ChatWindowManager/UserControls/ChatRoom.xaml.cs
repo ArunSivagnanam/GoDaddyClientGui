@@ -38,7 +38,7 @@ namespace ChatWindowManager.UserControls
             chatBox.Text = "<<Welcome>>";
             chatBox.Text += DateTime.Now.ToString("HH:mm:ss");
             chatBox.Text += Environment.NewLine;
-            chatBoxes.Add(UserLogIn.loggedInClient.UserName, activeChatTexBox);
+            //chatBoxes.Add(UserLogIn.loggedInClient.UserName, activeChatTexBox);
             activeChatTexBox = chatBox;
         }
 

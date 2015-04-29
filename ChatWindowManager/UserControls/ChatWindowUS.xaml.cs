@@ -20,7 +20,7 @@ namespace ChatWindowManager.UserControls
     /// </summary>
     public partial class ChatWindowUS : UserControl
     {
-        public event EventHandler<src.UIEvent> userEvent;
+        //public event EventHandler<src.UIEvent> userEvent;
 
         public ChatWindowUS()
         {

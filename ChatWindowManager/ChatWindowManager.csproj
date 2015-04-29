@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -59,7 +60,6 @@
     <Compile Include="ChatWindow.xaml.cs">
       <DependentUpon>ChatWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\Client.cs" />
     <Compile Include="src\UIEvent.cs" />
     <Compile Include="UserControls\ChatRoom.xaml.cs">
       <DependentUpon>ChatRoom.xaml</DependentUpon>
@@ -158,6 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\bullet_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Source\Repos\GoDaddyClient2\GoDaddyClient\GoDaddyClient.csproj">
+      <Project>{6009cb7a-afa4-4726-8316-b30a96a0e2c5}</Project>
+      <Name>GoDaddyClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
