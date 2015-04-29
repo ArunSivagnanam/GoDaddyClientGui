@@ -23,7 +23,7 @@ namespace ChatWindowManager.UserControls
         public FriendsWindow(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();
-            DisplayFriendsUS displayFriendsUS = new DisplayFriendsUS();
+            DisplayFriendsUS displayFriendsUS = new DisplayFriendsUS(clientLogic);
             friendsWindowContent.Content = displayFriendsUS;
             this.Show();
             this.clientLogic = clientLogic;

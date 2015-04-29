@@ -30,7 +30,7 @@ namespace ChatWindowManager
             UserLogIn loginUI = new UserLogIn();
             MainWindowContent.Content = loginUI;
             loginUI.userEvent += eventOccurred;
-            //clientLogic = new GoDaddyClient.Client();   
+            clientLogic = new GoDaddyClient.Client();   
         }
 
         void eventOccurred(object sender, src.UIEvent e)
@@ -46,11 +46,6 @@ namespace ChatWindowManager
                     UserLogIn loginUI = new UserLogIn();
                     loginUI.userEvent += eventOccurred;
                     MainWindowContent.Content = loginUI;
-                    break;
-                case "ChatRoom":
-                    ChatRoom chatRoom = new ChatRoom();
-                    chatRoom.userEvent += eventOccurred;
-                    MainWindowContent.Content = chatRoom;
                     break;
                 case "Login":
                     FriendsWindow friendsWindow = new FriendsWindow(clientLogic);

@@ -20,10 +20,13 @@ namespace ChatWindowManager.UserControls
     /// </summary>
     public partial class DisplayFriendsUS : UserControl
     {
-        public DisplayFriendsUS()
+        private GoDaddyClient.Client clientLogic;
+
+        public DisplayFriendsUS(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();
             fillFriendsList();
+            this.clientLogic = clientLogic;
         }
 
         private void fillFriendsList()
@@ -58,7 +61,7 @@ namespace ChatWindowManager.UserControls
 
         private void friendsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ChatWindow cw = new ChatWindow();
+            ChatWindow cw = new ChatWindow(clientLogic);
             cw.Show();
         }
     }

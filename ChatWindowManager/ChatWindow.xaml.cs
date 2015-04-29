@@ -19,11 +19,16 @@ namespace ChatWindowManager
     /// </summary>
     public partial class ChatWindow : Window
     {
-        public ChatWindow()
+        private GoDaddyClient.Client clientLogic;
+
+
+
+        public ChatWindow(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();
-            UserControls.ChatWindowUS chatWindowsUS = new UserControls.ChatWindowUS();
+            UserControls.ChatWindowUS chatWindowsUS = new UserControls.ChatWindowUS(clientLogic);
             ChatWindowContent.Content = chatWindowsUS;
+            this.clientLogic = clientLogic;
         }
     }
 }

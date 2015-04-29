@@ -79,10 +79,7 @@ namespace ChatWindowManager.UserControls
             else
             {
                 displayPasswordError();
-            }
-
-
-            
+            }     
         }
 
         private void confirmRegsiter(string confirmation)

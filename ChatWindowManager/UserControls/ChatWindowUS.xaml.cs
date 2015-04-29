@@ -20,16 +20,30 @@ namespace ChatWindowManager.UserControls
     /// </summary>
     public partial class ChatWindowUS : UserControl
     {
+        private GoDaddyClient.Client clientLogic;
+
         //public event EventHandler<src.UIEvent> userEvent;
 
-        public ChatWindowUS()
+        public ChatWindowUS(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();
             chatBox.Text = "<<Welcome>>";
             chatBox.AppendText(DateTime.Now.ToString("HH:mm:ss"));
             chatBox.AppendText(Environment.NewLine);
+            this.clientLogic = clientLogic;
 
+            clientLogic.msgEvent += clientLogic_msgEvent;
         }
+
+        void clientLogic_msgEvent(object sender, GoDaddyClient.MessageEvent e)
+        {
+            string time = DateTime.Now.ToString("HH:mm:");
+            chatBox.AppendText("<" + time + ">" + e.message);
+            chatBox.AppendText(Environment.NewLine);
+        }
+
+
+
 
         private void sendTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -62,6 +76,8 @@ namespace ChatWindowManager.UserControls
             tb.SelectionStart = tb.Text.Length;
             tb.ScrollToEnd();
         }
+
+        
 
     }
 }
