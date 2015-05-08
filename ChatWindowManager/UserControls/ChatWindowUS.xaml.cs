@@ -22,7 +22,6 @@ namespace ChatWindowManager.UserControls
     {
         private GoDaddyClient.Client clientLogic;
 
-        //public event EventHandler<src.UIEvent> userEvent;
 
         public ChatWindowUS(GoDaddyClient.Client clientLogic)
         {
@@ -52,6 +51,10 @@ namespace ChatWindowManager.UserControls
                 string time = DateTime.Now.ToString("HH:mm:");
                 TextBox tb = (TextBox)sender;
                 string textToSend = tb.Text;
+                /*
+                 Message msg = new Message(textToSend,time);
+                 clientLogic.sendMessage(msg);
+                 */
                 tb.Clear();
                 chatBox.AppendText("<" + time + ">" + textToSend);
                 chatBox.AppendText(Environment.NewLine);
@@ -64,6 +67,12 @@ namespace ChatWindowManager.UserControls
             TextBox tb = sendTextBox;
             string time = DateTime.Now.ToString("HH:mm:");
             string textToSend = tb.Text;
+
+            /*
+             Message msg = new Message(textToSend,time);
+             clientLogic.sendMessage(msg);
+             */
+
             tb.Clear();
             chatBox.Text += "<" + time + ">" + textToSend;
             chatBox.Text += Environment.NewLine;
@@ -76,8 +85,5 @@ namespace ChatWindowManager.UserControls
             tb.SelectionStart = tb.Text.Length;
             tb.ScrollToEnd();
         }
-
-        
-
     }
 }

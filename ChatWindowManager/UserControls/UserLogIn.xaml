@@ -29,7 +29,7 @@
                             <AccessText Text="_Username:" Foreground="White" FontWeight="Bold"/>
                         </StackPanel>
                     </Label>
-                    <RichTextBox Margin="0,0,0,0" Width="200"
+                    <RichTextBox x:Name="usernameInput" Margin="0,0,0,0" Width="200"
 						FontStyle="Italic" FontWeight="Light" FontFamily="ariel"
 						GotFocus="TextBox_GotFocus"
 						LostFocus="TextBox_LostFocus">

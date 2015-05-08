@@ -86,11 +86,13 @@ namespace ChatWindowManager.UserControls
         {
             switch (confirmation)
             {
-                case "SUCCES":
+                case "SUCCESS":
+                    
                     clearFields();
                     EventHandler<src.UIEvent> handler = createUserEvent;
                     if (createUserEvent != null)
                     {
+                        Console.WriteLine("inde");
                         handler(this, new src.UIEvent("UserLogIn"));
                     }
                     break;

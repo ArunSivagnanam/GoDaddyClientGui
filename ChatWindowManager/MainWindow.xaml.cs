@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ChatWindowManager.UserControls;
 using GoDaddyClient;
+using System.Diagnostics;
 
 namespace ChatWindowManager
 {
@@ -27,10 +28,12 @@ namespace ChatWindowManager
         public MainWindow()
         {
             InitializeComponent();
-            UserLogIn loginUI = new UserLogIn();
+            clientLogic = new GoDaddyClient.Client();
+            UserLogIn loginUI = new UserLogIn(clientLogic);
             MainWindowContent.Content = loginUI;
             loginUI.userEvent += eventOccurred;
-            clientLogic = new GoDaddyClient.Client();   
+            
+            
         }
 
         void eventOccurred(object sender, src.UIEvent e)
@@ -43,11 +46,12 @@ namespace ChatWindowManager
                     MainWindowContent.Content = createNewUserUI; 
                     break;
                 case "UserLogIn":
-                    UserLogIn loginUI = new UserLogIn();
+                    UserLogIn loginUI = new UserLogIn(clientLogic);
                     loginUI.userEvent += eventOccurred;
                     MainWindowContent.Content = loginUI;
                     break;
                 case "Login":
+                    Debug.Write("Hej");
                     FriendsWindow friendsWindow = new FriendsWindow(clientLogic);
                     this.Close();
                     break;

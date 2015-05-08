@@ -25,10 +25,13 @@ namespace ChatWindowManager.UserControls
     public partial class UserLogIn : UserControl
     {
         public event EventHandler<src.UIEvent> userEvent;
+        GoDaddyClient.Client clientLogic;
 
-        public UserLogIn()
+        public UserLogIn(GoDaddyClient.Client client)
         {
             InitializeComponent();
+            clientLogic = client;
+
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -99,11 +102,39 @@ namespace ChatWindowManager.UserControls
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            EventHandler<src.UIEvent> handler = userEvent;
-            if (userEvent != null)
+            // password
+            PasswordBox pwb = ptxtPassword;
+            RichTextBox usn = usernameInput;
+            TextRange textRange = new TextRange(
+                   usn.Document.ContentStart,
+                   usn.Document.ContentEnd);
+
+            string password = pwb.Password;
+
+            string username = textRange.Text.Replace(Environment.NewLine, ""); // fjerner newline
+            
+            Console.WriteLine("password "+password);
+            Console.WriteLine("username "+username);
+
+            bool status = clientLogic.login(username, password);
+
+
+            if (status)
             {
-                handler(this, new src.UIEvent("Login"));
+                // skifter vindue
+                EventHandler<src.UIEvent> handler = userEvent;
+                if (userEvent != null)
+                {
+                    handler(this, new src.UIEvent("Login"));
+                }
             }
+            else
+            {
+                // lav pop up notifikation
+                Console.WriteLine("Failed to login");
+            }
+
+           
         }
     }
 }
