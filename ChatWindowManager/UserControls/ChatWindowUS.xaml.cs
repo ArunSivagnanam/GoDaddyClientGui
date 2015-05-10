@@ -56,6 +56,7 @@ namespace ChatWindowManager.UserControls
 
         void clientLogic_msgEvent(object sender, GoDaddyClient.MessageEvent e)
         {
+
             string time = DateTime.Now.ToString("HH:mm:");
             chatBox.AppendText("<" + time + ">" + e.message);
             chatBox.AppendText(Environment.NewLine);

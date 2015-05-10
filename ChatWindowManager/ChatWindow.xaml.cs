@@ -21,16 +21,23 @@ namespace ChatWindowManager
     public partial class ChatWindow : Window
     {
         private GoDaddyClient.Client clientLogic;
-        
+        Dictionary<string, ChatWindow> windows;
+        User receiverUser;
 
-        public ChatWindow(GoDaddyClient.Client clientLogic, User receiverUser)
+        public ChatWindow(GoDaddyClient.Client clientLogic, User receiverUser, Dictionary<string, ChatWindow> windows)
         {
             InitializeComponent();
             UserControls.ChatWindowUS chatWindowsUS = new UserControls.ChatWindowUS(clientLogic, receiverUser);
             ChatWindowContent.Content = chatWindowsUS;
             this.clientLogic = clientLogic;
-          
+            this.receiverUser = receiverUser;
+            this.windows = windows;
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            windows.Remove(receiverUser.userName);
         }
 
         

@@ -115,7 +115,7 @@ namespace ChatWindowManager.UserControls
             if (!(windows.ContainsKey(receiverUser.userName)))
             {
                 // vindue ikke åben
-                ChatWindow cw = new ChatWindow(clientLogic, receiverUser);
+                ChatWindow cw = new ChatWindow(clientLogic, receiverUser, windows);
                 windows.Add(receiverUser.userName, cw);
                 cw.Show();
             }
