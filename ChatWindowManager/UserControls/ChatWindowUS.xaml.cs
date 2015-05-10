@@ -26,6 +26,10 @@ namespace ChatWindowManager.UserControls
         public ChatWindowUS(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();
+            //Get message history
+            //chatBox.AppendText for each message
+
+
             chatBox.Text = "<<Welcome>>";
             chatBox.AppendText(DateTime.Now.ToString("HH:mm:ss"));
             chatBox.AppendText(Environment.NewLine);

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GoDaddyClient.ServiceReference;
 
 namespace ChatWindowManager.UserControls
 {
@@ -24,20 +25,40 @@ namespace ChatWindowManager.UserControls
 
         public DisplayFriendsUS(GoDaddyClient.Client clientLogic)
         {
-            InitializeComponent();
-            fillFriendsList();
+            InitializeComponent();           
             this.clientLogic = clientLogic;
+            userNameLabel.Content = clientLogic.currentUser.userName;
+            fillFriendsList();
         }
 
         private void fillFriendsList()
         {
-            List<User> items = new List<User>();
-            items.Add(new User() { UserName = "Batman", Status = Availability.Offline });
-            items.Add(new User() { UserName = "SuperMan", Status = Availability.Offline });
-            items.Add(new User() { UserName = "Sexy-98675", Status = Availability.Online });
-            items.Add(new User() { UserName = "Mom", Status = Availability.FriendRequest });
-            friendsList.ItemsSource = items;
+                           
+               List<User> FriendList = clientLogic.RecieveFriendList();
+               List<Usera> items = new List<Usera>();
+               List<User> pendingFriends = clientLogic.ReciveFriendsToAccept();
 
+                //Online/Offline Friends added to list
+                foreach (User u in FriendList) {
+                        switch(u.status){
+                            case 0:
+                             items.Add(new Usera() { UserName = u.userName, Status = Availability.Offline });
+                        break;
+
+                            case 1:
+                             items.Add(new Usera() { UserName = u.userName, Status = Availability.Online });
+                        break;            
+                    }
+                }
+                
+                //Pending friends list added
+                foreach (User u in pendingFriends)
+                {
+                   items.Add(new Usera() { UserName = u.userName, Status = Availability.FriendRequest });
+
+                }
+
+            friendsList.ItemsSource = items;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsList.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
             view.GroupDescriptions.Add(groupDescription);
@@ -47,7 +68,7 @@ namespace ChatWindowManager.UserControls
 
         public enum Availability { Online, Offline, FriendRequest };
 
-        public class User
+        public class Usera
         {
             public string UserName { get; set; }
 
@@ -61,6 +82,7 @@ namespace ChatWindowManager.UserControls
 
         private void friendsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            //Click event som åbner Channel til specifikke brugere
             ChatWindow cw = new ChatWindow(clientLogic);
             cw.Show();
         }

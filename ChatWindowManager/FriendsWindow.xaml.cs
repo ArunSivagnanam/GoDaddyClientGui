@@ -16,7 +16,8 @@ namespace ChatWindowManager.UserControls
 {
     public partial class FriendsWindow : Window
     {
-        private GoDaddyClient.Client clientLogic;
+        GoDaddyClient.Client clientLogic;
+  
 
 
 
@@ -25,8 +26,15 @@ namespace ChatWindowManager.UserControls
             InitializeComponent();
             DisplayFriendsUS displayFriendsUS = new DisplayFriendsUS(clientLogic);
             friendsWindowContent.Content = displayFriendsUS;
-            this.Show();
             this.clientLogic = clientLogic;
+            this.Show();
+            
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            clientLogic.logOut();
+        }
+
     }
 }

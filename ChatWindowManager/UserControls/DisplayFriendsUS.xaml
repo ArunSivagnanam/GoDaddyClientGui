@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" Width="250">   
     <DockPanel>
-        <Label DockPanel.Dock="Top" Background="#393C7B" FontWeight="Bold" FontStyle="Normal" Foreground="White">Username</Label>
+        <Label x:Name="userNameLabel" DockPanel.Dock="Top" Background="#393C7B" FontWeight="Bold" FontStyle="Normal" Foreground="White"></Label>
         <Canvas x:Name="displayFriendsCancvas">
             <Canvas.Background>
                 <ImageBrush>
