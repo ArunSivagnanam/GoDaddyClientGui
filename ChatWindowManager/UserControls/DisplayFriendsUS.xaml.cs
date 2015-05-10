@@ -22,6 +22,7 @@ namespace ChatWindowManager.UserControls
     public partial class DisplayFriendsUS : UserControl
     {
         private GoDaddyClient.Client clientLogic;
+        private CollectionView view;
        
         public DisplayFriendsUS(GoDaddyClient.Client clientLogic)
         {
@@ -46,9 +47,14 @@ namespace ChatWindowManager.UserControls
                 listUserSouce.Add(new ListUser(u.userName, u.Status));
             }
 
-            friendsListView.ItemsSource = listUserSouce;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsListView.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
+            foreach (User u in clientLogic.friendsToAccept)
+            {
+                ListUser user = new ListUser(u.userName, Availability.FriendRequest);
+                listUserSouce.Add(user);
+            }
+
+           
+            setListViewProperty(listUserSouce);
             friendsListView.UpdateLayout();
         }
 
@@ -67,8 +73,13 @@ namespace ChatWindowManager.UserControls
                 ListUser user = new ListUser(u.userName, Availability.FriendRequest);
                 listUserSouce.Add(user);
             }
-            
-            
+
+
+            setListViewProperty(listUserSouce);
+        }
+
+        private void setListViewProperty(List<ListUser> listUserSouce)
+        {
             friendsListView.ItemsSource = listUserSouce;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
