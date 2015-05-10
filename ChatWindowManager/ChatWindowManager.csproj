@@ -160,7 +160,7 @@
     <Resource Include="Images\bullet_red.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GoDaddyClient\GoDaddyClient\GoDaddyClient.csproj">
+    <ProjectReference Include="..\..\..\GoDaddyClient\GoDaddyClient\GoDaddyClient.csproj">
       <Project>{6009cb7a-afa4-4726-8316-b30a96a0e2c5}</Project>
       <Name>GoDaddyClient</Name>
     </ProjectReference>

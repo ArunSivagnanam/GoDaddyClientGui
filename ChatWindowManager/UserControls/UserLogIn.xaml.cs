@@ -102,6 +102,11 @@ namespace ChatWindowManager.UserControls
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
+            Login();
+        }
+
+        private void Login()
+        {
             // password
             PasswordBox pwb = ptxtPassword;
             RichTextBox usn = usernameInput;
@@ -112,9 +117,9 @@ namespace ChatWindowManager.UserControls
             string password = pwb.Password;
 
             string username = textRange.Text.Replace(Environment.NewLine, ""); // fjerner newline
-            
-            Console.WriteLine("password "+password);
-            Console.WriteLine("username "+username);
+
+            Console.WriteLine("password " + password);
+            Console.WriteLine("username " + username);
 
             bool status = clientLogic.login(username, password);
 
@@ -134,7 +139,15 @@ namespace ChatWindowManager.UserControls
                 Console.WriteLine("Failed to login");
             }
 
-           
+
+        }
+
+        private void loginButton_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                Login();
+            }
         }
     }
 }

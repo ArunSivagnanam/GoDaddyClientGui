@@ -22,9 +22,7 @@ namespace ChatWindowManager.UserControls
     public partial class DisplayFriendsUS : UserControl
     {
         private GoDaddyClient.Client clientLogic;
-        Dictionary<String, GuiUser> guiFriends = new Dictionary<string, GuiUser>();
-        
-
+       
         public DisplayFriendsUS(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();           
@@ -32,82 +30,56 @@ namespace ChatWindowManager.UserControls
             userNameLabel.Content = clientLogic.currentUser.userName;
             clientLogic.RecieveFriendList();
             clientLogic.ReciveFriendsToAccept();
-            updateGuiFriendList();
-
-            clientLogic.friendListEvent += updateFriendList; // sat til at catche update userevent 
+            initFriendList();
+          
+            clientLogic.friendListEvent += updateGuiFriendList; // sat til at catche update userevent 
         }
 
-        public void updateFriendList(object sender, GoDaddyClient.FriendListEvent e)
-        {
-            foreach (User u in clientLogic.friendsList)
-            {
-                if (u.ID == e.u.ID)
-                {
-                    u.status = 1;
-                }
-            }
-            updateGuiFriendList();
-        }
-
-
-        public void updateGuiFriendList() // updatere gui
+        public void updateGuiFriendList(object sender, GoDaddyClient.FriendListEvent e)
         {
             
-            List<GuiUser> guiUserList = new List<GuiUser>();
+           
+            List<ListUser> listUserSouce = new List<ListUser>();
 
-            //Online/Offline Friends added to list
             foreach (User u in clientLogic.friendsList)
             {
-                GuiUser newUser = new GuiUser()
-                {
-                    UserName = u.userName
-                };
-                switch (u.status)
-                {
-                    case 0:
-                        newUser.Status = Availability.Offline;
-                        guiUserList.Add(newUser);
-                        break;
-
-                    case 1:
-                        newUser.Status = Availability.Online;
-                        guiUserList.Add(newUser);
-                        break;
-                }
+                listUserSouce.Add(new ListUser(u.userName, u.Status));
             }
 
-            //Pending friends list added
+            friendsListView.ItemsSource = listUserSouce;
+            friendsListView.UpdateLayout();
+        }
+
+        public void 
+
+        public void initFriendList(){
+
+            List<ListUser> listUserSouce = new List<ListUser>();
+
+            foreach (User u in clientLogic.friendsList)
+            {
+                listUserSouce.Add(new ListUser(u.userName, u.Status));
+            }
+
             foreach (User u in clientLogic.friendsToAccept)
             {
-                GuiUser pendingUser = new GuiUser()
-                {
-                    UserName = u.userName,
-                    Status = Availability.FriendRequest
-                };
-                guiUserList.Add(new GuiUser() { UserName = u.userName, Status = Availability.FriendRequest });
-
+                ListUser user = new ListUser(u.userName, Availability.FriendRequest);
+                listUserSouce.Add(user);
             }
-            friendsListView.ItemsSource = guiUserList;
+            
+            
+            friendsListView.ItemsSource = listUserSouce;
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
             view.GroupDescriptions.Add(groupDescription);
-
         }
 
-        public enum Availability { Online, Offline, FriendRequest };
 
-        public class GuiUser
+        public override string ToString()
         {
-
-            public string UserName { get; set; }
-
-            public Availability Status { get; set; }
-
-            public override string ToString()
-            {
-                return this.UserName;
-            }
+            return base.ToString();
         }
+       
 
         private void friendsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -115,5 +87,24 @@ namespace ChatWindowManager.UserControls
             ChatWindow cw = new ChatWindow(clientLogic);
             cw.Show();
         }
+
+
+        class ListUser
+        {
+            string username;
+            public Availability Status { get; set;}
+
+            public ListUser(string username,Availability status)
+            {
+                this.username = username;
+                this.Status = status;
+            }
+
+            public override string ToString()
+            {
+                return username;
+            }
+        }
+
     }
 }

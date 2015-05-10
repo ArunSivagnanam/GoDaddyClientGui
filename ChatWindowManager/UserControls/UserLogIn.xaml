@@ -55,7 +55,8 @@
                     <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                         <Button x:Name="loginButton" Content="Login" Width="190" Height="25" Margin="5,0,0,0"
                                 Foreground="White" Style="{StaticResource ButtonStyle}"
-                                Click="loginButton_Click">
+                                Click="loginButton_Click"
+                                PreviewKeyDown="loginButton_PreviewKeyDown">
                         </Button>
                     </StackPanel>
                 </StackPanel>
