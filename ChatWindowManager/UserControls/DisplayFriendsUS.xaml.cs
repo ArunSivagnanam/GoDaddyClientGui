@@ -23,6 +23,7 @@ namespace ChatWindowManager.UserControls
     {
         private GoDaddyClient.Client clientLogic;
         private CollectionView view;
+        Dictionary<string, ChatWindow> windows = new Dictionary<string, ChatWindow>();
        
         public DisplayFriendsUS(GoDaddyClient.Client clientLogic)
         {
@@ -95,15 +96,36 @@ namespace ChatWindowManager.UserControls
 
         private void friendsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+
+            ListView view = (ListView)sender;
+            ListUser userItem = (ListUser)(view.SelectedValue); // selected item?
+            User receiverUser = new User();
+
+            foreach (User u in clientLogic.friendsList)
+            {
+                if (u.userName == userItem.username)
+                {
+                    receiverUser = u;
+                }
+            }
+
+            Console.WriteLine("Hej " + userItem.username);
             //Click event som åbner Channel til specifikke brugere
-            ChatWindow cw = new ChatWindow(clientLogic);
-            cw.Show();
+
+            if (!(windows.ContainsKey(receiverUser.userName)))
+            {
+                // vindue ikke åben
+                ChatWindow cw = new ChatWindow(clientLogic, receiverUser);
+                windows.Add(receiverUser.userName, cw);
+                cw.Show();
+            }
+           
         }
 
 
         class ListUser
         {
-            string username;
+            public string username;
             public Availability Status { get; set;}
 
             public ListUser(string username,Availability status)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoDaddyClient.ServiceReference;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,18 @@ namespace ChatWindowManager
     public partial class ChatWindow : Window
     {
         private GoDaddyClient.Client clientLogic;
+        
 
-
-
-        public ChatWindow(GoDaddyClient.Client clientLogic)
+        public ChatWindow(GoDaddyClient.Client clientLogic, User receiverUser)
         {
             InitializeComponent();
-            UserControls.ChatWindowUS chatWindowsUS = new UserControls.ChatWindowUS(clientLogic);
+            UserControls.ChatWindowUS chatWindowsUS = new UserControls.ChatWindowUS(clientLogic, receiverUser);
             ChatWindowContent.Content = chatWindowsUS;
             this.clientLogic = clientLogic;
+          
+
         }
+
+        
     }
 }

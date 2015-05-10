@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GoDaddyClient.ServiceReference;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,10 @@ namespace ChatWindowManager.UserControls
     public partial class ChatWindowUS : UserControl
     {
         private GoDaddyClient.Client clientLogic;
+        User receiver;
 
 
-        public ChatWindowUS(GoDaddyClient.Client clientLogic)
+        public ChatWindowUS(GoDaddyClient.Client clientLogic, User receiver)
         {
             InitializeComponent();
             //Get message history
@@ -34,8 +36,22 @@ namespace ChatWindowManager.UserControls
             chatBox.AppendText(DateTime.Now.ToString("HH:mm:ss"));
             chatBox.AppendText(Environment.NewLine);
             this.clientLogic = clientLogic;
+            this.receiver = receiver;
+
+            printMessageHistory(clientLogic.GetMessageHistory(receiver.userName));
 
             clientLogic.msgEvent += clientLogic_msgEvent;
+        }
+
+        public void printMessageHistory(List<Message> messages)
+        {
+            foreach(Message m in messages){
+
+                chatBox.AppendText("sender: "+m.senderUserName+ ", receiver: "+m.receiverUserName+", Time: "+m.sendMessageTime.ToString());
+                chatBox.AppendText(Environment.NewLine);
+                chatBox.AppendText("message: " + m.message);
+                     
+            }
         }
 
         void clientLogic_msgEvent(object sender, GoDaddyClient.MessageEvent e)
@@ -69,16 +85,18 @@ namespace ChatWindowManager.UserControls
         private void sendButton_Click(object sender, RoutedEventArgs e)
         {
             TextBox tb = sendTextBox;
+
             string time = DateTime.Now.ToString("HH:mm:");
             string textToSend = tb.Text;
 
+            String message = clientLogic.sendMessage(receiver.userName, textToSend);
             /*
              Message msg = new Message(textToSend,time);
              clientLogic.sendMessage(msg);
              */
 
             tb.Clear();
-            chatBox.Text += "<" + time + ">" + textToSend;
+            chatBox.Text += "<" + time + ">" + message;
             chatBox.Text += Environment.NewLine;
             e.Handled = true;
         }
