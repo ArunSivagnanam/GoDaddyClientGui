@@ -33,6 +33,7 @@ namespace ChatWindowManager.UserControls
             clientLogic.RecieveFriendList();
             clientLogic.ReciveFriendsToAccept();
             initFriendList();
+            clientLogic.msgEvent += clientLogic_msgEvent;
           
             clientLogic.friendListEvent += updateGuiFriendList; // sat til at catche update userevent 
         }
@@ -115,11 +116,32 @@ namespace ChatWindowManager.UserControls
             if (!(windows.ContainsKey(receiverUser.userName)))
             {
                 // vindue ikke åben
-                ChatWindow cw = new ChatWindow(clientLogic, receiverUser, windows);
+                ChatWindow cw = new ChatWindow(clientLogic, receiverUser.userName, windows);
                 windows.Add(receiverUser.userName, cw);
                 cw.Show();
             }
            
+        }
+
+        void clientLogic_msgEvent(object sender, GoDaddyClient.MessageEvent e)
+        {
+
+            if ((windows.ContainsKey(e.message.senderUserName)))
+            {
+
+                ChatWindow cw = windows[e.message.senderUserName];
+
+                // vindue ikke åben
+                cw.chatWindowsUS.DisplayText(e.message);
+            }
+            else
+            {
+                ChatWindow newWind = new ChatWindow(clientLogic, e.message.senderUserName, windows);
+                windows.Add(e.message.senderUserName, newWind);
+                newWind.chatWindowsUS.DisplayText(e.message);
+                newWind.Show();
+            }
+
         }
 
 

@@ -1,4 +1,5 @@
-﻿using GoDaddyClient.ServiceReference;
+﻿using ChatWindowManager.UserControls;
+using GoDaddyClient.ServiceReference;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,13 @@ namespace ChatWindowManager
     {
         private GoDaddyClient.Client clientLogic;
         Dictionary<string, ChatWindow> windows;
-        User receiverUser;
+        string receiverUser;
+        public ChatWindowUS chatWindowsUS;
 
-        public ChatWindow(GoDaddyClient.Client clientLogic, User receiverUser, Dictionary<string, ChatWindow> windows)
+        public ChatWindow(GoDaddyClient.Client clientLogic, string receiverUser, Dictionary<string, ChatWindow> windows)
         {
             InitializeComponent();
-            UserControls.ChatWindowUS chatWindowsUS = new UserControls.ChatWindowUS(clientLogic, receiverUser);
+            chatWindowsUS = new UserControls.ChatWindowUS(clientLogic, receiverUser);
             ChatWindowContent.Content = chatWindowsUS;
             this.clientLogic = clientLogic;
             this.receiverUser = receiverUser;
@@ -37,7 +39,7 @@ namespace ChatWindowManager
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            windows.Remove(receiverUser.userName);
+            windows.Remove(receiverUser);
         }
 
         

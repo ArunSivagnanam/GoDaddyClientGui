@@ -22,25 +22,32 @@ namespace ChatWindowManager.UserControls
     public partial class ChatWindowUS : UserControl
     {
         private GoDaddyClient.Client clientLogic;
-        User receiver;
+        string receiver;
 
 
-        public ChatWindowUS(GoDaddyClient.Client clientLogic, User receiver)
+        public ChatWindowUS(GoDaddyClient.Client clientLogic, string receiver)
         {
             InitializeComponent();
             //Get message history
             //chatBox.AppendText for each message
-
-
+            
             chatBox.Text = "<<Welcome>>";
             chatBox.AppendText(DateTime.Now.ToString("HH:mm:ss"));
             chatBox.AppendText(Environment.NewLine);
             this.clientLogic = clientLogic;
             this.receiver = receiver;
 
-            printMessageHistory(clientLogic.GetMessageHistory(receiver.userName));
+            printMessageHistory(clientLogic.GetMessageHistory(receiver));
 
-            clientLogic.msgEvent += clientLogic_msgEvent;
+           
+        }
+
+        public void DisplayText(Message m){
+
+            string time = DateTime.Now.ToString("HH:mm:");
+            chatBox.AppendText("<" + time + ">" + m.message);
+            chatBox.AppendText(Environment.NewLine);
+
         }
 
         public void printMessageHistory(List<Message> messages)
@@ -54,13 +61,7 @@ namespace ChatWindowManager.UserControls
             }
         }
 
-        void clientLogic_msgEvent(object sender, GoDaddyClient.MessageEvent e)
-        {
-
-            string time = DateTime.Now.ToString("HH:mm:");
-            chatBox.AppendText("<" + time + ">" + e.message);
-            chatBox.AppendText(Environment.NewLine);
-        }
+        
 
 
 
@@ -90,7 +91,7 @@ namespace ChatWindowManager.UserControls
             string time = DateTime.Now.ToString("HH:mm:");
             string textToSend = tb.Text;
 
-            String message = clientLogic.sendMessage(receiver.userName, textToSend);
+            String message = clientLogic.sendMessage(receiver, textToSend);
             /*
              Message msg = new Message(textToSend,time);
              clientLogic.sendMessage(msg);
