@@ -22,54 +22,83 @@ namespace ChatWindowManager.UserControls
     public partial class DisplayFriendsUS : UserControl
     {
         private GoDaddyClient.Client clientLogic;
+        Dictionary<String, GuiUser> guiFriends = new Dictionary<string, GuiUser>();
+        
 
         public DisplayFriendsUS(GoDaddyClient.Client clientLogic)
         {
             InitializeComponent();           
             this.clientLogic = clientLogic;
             userNameLabel.Content = clientLogic.currentUser.userName;
-            fillFriendsList();
+            clientLogic.RecieveFriendList();
+            clientLogic.ReciveFriendsToAccept();
+            updateGuiFriendList();
+
+            clientLogic.friendListEvent += updateFriendList; // sat til at catche update userevent 
         }
 
-        private void fillFriendsList()
+        public void updateFriendList(object sender, GoDaddyClient.FriendListEvent e)
         {
-                           
-               List<User> FriendList = clientLogic.RecieveFriendList();
-               List<Usera> items = new List<Usera>();
-               List<User> pendingFriends = clientLogic.ReciveFriendsToAccept();
+            foreach (User u in clientLogic.friendsList)
+            {
+                if (u.ID == e.u.ID)
+                {
+                    u.status = 1;
+                }
+            }
+            updateGuiFriendList();
+        }
 
-                //Online/Offline Friends added to list
-                foreach (User u in FriendList) {
-                        switch(u.status){
-                            case 0:
-                             items.Add(new Usera() { UserName = u.userName, Status = Availability.Offline });
+
+        public void updateGuiFriendList() // updatere gui
+        {
+            
+            List<GuiUser> guiUserList = new List<GuiUser>();
+
+            //Online/Offline Friends added to list
+            foreach (User u in clientLogic.friendsList)
+            {
+                GuiUser newUser = new GuiUser()
+                {
+                    UserName = u.userName
+                };
+                switch (u.status)
+                {
+                    case 0:
+                        newUser.Status = Availability.Offline;
+                        guiUserList.Add(newUser);
                         break;
 
-                            case 1:
-                             items.Add(new Usera() { UserName = u.userName, Status = Availability.Online });
-                        break;            
-                    }
+                    case 1:
+                        newUser.Status = Availability.Online;
+                        guiUserList.Add(newUser);
+                        break;
                 }
-                
-                //Pending friends list added
-                foreach (User u in pendingFriends)
+            }
+
+            //Pending friends list added
+            foreach (User u in clientLogic.friendsToAccept)
+            {
+                GuiUser pendingUser = new GuiUser()
                 {
-                   items.Add(new Usera() { UserName = u.userName, Status = Availability.FriendRequest });
+                    UserName = u.userName,
+                    Status = Availability.FriendRequest
+                };
+                guiUserList.Add(new GuiUser() { UserName = u.userName, Status = Availability.FriendRequest });
 
-                }
-
-            friendsList.ItemsSource = items;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsList.ItemsSource);
+            }
+            friendsListView.ItemsSource = guiUserList;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
             view.GroupDescriptions.Add(groupDescription);
+
         }
-
-
 
         public enum Availability { Online, Offline, FriendRequest };
 
-        public class Usera
+        public class GuiUser
         {
+
             public string UserName { get; set; }
 
             public Availability Status { get; set; }

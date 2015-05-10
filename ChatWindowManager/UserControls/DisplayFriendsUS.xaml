@@ -16,7 +16,7 @@
                 </ImageBrush>
             </Canvas.Background>
 
-            <ListView Name="friendsList" Background="Transparent" Width="250" Height="375" MouseDoubleClick="friendsList_MouseDoubleClick">
+            <ListView x:Name="friendsListView" Background="Transparent" Width="250" Height="375" MouseDoubleClick="friendsList_MouseDoubleClick">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
