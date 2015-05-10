@@ -47,6 +47,8 @@ namespace ChatWindowManager.UserControls
             }
 
             friendsListView.ItemsSource = listUserSouce;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(friendsListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Status");
             friendsListView.UpdateLayout();
         }
 
