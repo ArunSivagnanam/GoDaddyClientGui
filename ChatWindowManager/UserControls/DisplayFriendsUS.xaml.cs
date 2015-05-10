@@ -50,8 +50,7 @@ namespace ChatWindowManager.UserControls
             friendsListView.UpdateLayout();
         }
 
-        public void 
-
+        
         public void initFriendList(){
 
             List<ListUser> listUserSouce = new List<ListUser>();
