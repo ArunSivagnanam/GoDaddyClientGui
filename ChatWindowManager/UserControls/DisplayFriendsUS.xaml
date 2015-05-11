@@ -16,7 +16,7 @@
                 </ImageBrush>
             </Canvas.Background>
 
-            <ListView x:Name="friendsListView" Background="Transparent" Width="250" Height="380" MouseDoubleClick="friendsList_MouseDoubleClick">
+            <ListView x:Name="friendsListView" Background="Transparent" Width="250" Height="293" MouseDoubleClick="friendsList_MouseDoubleClick">
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
@@ -46,7 +46,11 @@
                     </Style>
                 </ListView.ItemContainerStyle>         
             </ListView>
-           
+            <Button DockPanel.Dock="Bottom" Height="57" Width="230" Canvas.Left="10" Canvas.Top="298"
+                    Style="{StaticResource SimpleButtonStyle}" 
+                    Foreground="White" Content="Send Friendrequest"
+                    Click="Button_Click_SendFriendRequest">
+            </Button>
         </Canvas>
     </DockPanel>
 </UserControl>

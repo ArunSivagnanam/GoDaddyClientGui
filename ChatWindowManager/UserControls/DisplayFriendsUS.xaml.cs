@@ -89,10 +89,7 @@ namespace ChatWindowManager.UserControls
         }
 
 
-        public override string ToString()
-        {
-            return base.ToString();
-        }
+       
        
 
         private void friendsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -101,26 +98,68 @@ namespace ChatWindowManager.UserControls
             ListView view = (ListView)sender;
             ListUser userItem = (ListUser)(view.SelectedValue); // selected item?
             User receiverUser = new User();
+            bool found = false;
 
             foreach (User u in clientLogic.friendsList)
             {
                 if (u.userName == userItem.username)
                 {
                     receiverUser = u;
+                    found = true;
+                }
+            }
+
+            if (found==false)
+            {
+                foreach (User u in clientLogic.friendsToAccept)
+                {
+                    if (u.userName == userItem.username)
+                    {
+                        receiverUser = u;
+                        
+                    }
                 }
             }
 
             Console.WriteLine("Hej " + userItem.username);
             //Click event som åbner Channel til specifikke brugere
 
-            if (!(windows.ContainsKey(receiverUser.userName)))
+            if (receiverUser.Status == Availability.FriendRequest)
             {
-                // vindue ikke åben
-                ChatWindow cw = new ChatWindow(clientLogic, receiverUser.userName, windows);
-                windows.Add(receiverUser.userName, cw);
-                cw.Show();
+                // pop yes no
+                MessageBoxResult msgBoxResult = MessageBox.Show("Accept friend request from " + receiverUser.userName, "Request", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                switch (msgBoxResult)
+                {
+                    case MessageBoxResult.Yes:
+                        clientLogic.AcceptFriend(receiverUser.userName);
+                        Console.WriteLine("sent accept to " + receiverUser.userName);
+                        clientLogic.friendsToAccept.Remove(receiverUser); 
+                        break;
+                    case MessageBoxResult.No:
+                        clientLogic.friendsToAccept.Remove(receiverUser);
+                        break;
+                }
+                
             }
+            else
+            {
+                if (!(windows.ContainsKey(receiverUser.userName)))
+                {
+                    // vindue ikke åben
+                    ChatWindow cw = new ChatWindow(clientLogic, receiverUser.userName, windows);
+                    windows.Add(receiverUser.userName, cw);
+                    cw.Show();
+                }
+            }
+
+            
            
+        }
+
+        private void Button_Click_SendFriendRequest(object sender, RoutedEventArgs e)
+        {
+            Window sendFriendRequestWindow = new FriendRequestWindow(this.clientLogic);
+            sendFriendRequestWindow.Show();
         }
 
         void clientLogic_msgEvent(object sender, GoDaddyClient.MessageEvent e)
