@@ -19,7 +19,7 @@ using System.Diagnostics;
 namespace ChatWindowManager
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xamlfg
     /// </summary>
     public partial class MainWindow : Window
     {
